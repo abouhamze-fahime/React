@@ -1,34 +1,34 @@
+import {useState} from 'react'
+import EmployeeList from "./Components/EmployeeList/EmployeeList";
+import AddEmployee from './Components/AddEmployee/AddEmployee'
 
-import './App.css';
-import Employee from './Components/Employee';
-import {useState} from 'react';
+const App=()=> {
 
-function App() {
-  const [role , setRole]=useState('dev');
+ const [emp , setEmps]= useState(
+  [
+    {id:1 , title: "Fahime"},
+    {id:2 , title: "Sara"} , 
+    {id:3 , title: "Elnaz"}
+  ]
+ );
+ 
+ const addEmployee=(title)=>{
+ const id = Math.floor(Math.random()*10000)
+ const newEmp = {id , ...title}
+ setEmps([...emp , newEmp]) 
+ }
 
-  const showEmployees = true;
-  return (
-    <div className="App">
-      {console.log('inside the return')}
-      {showEmployees ?
-        (
-          <>
-          <input type="text" 
-          onChange={(e)=>{
-               console.log(e.target.value);   
-               setRole(e.target.value);    
-          }}
-          />
-            <Employee name=" fahime" role="admin"/>
-            <Employee name=" Arash" role={role}/>
-            <Employee name=" Nima" />
-          </>
-        )
-     :
-     (
-      <p>You cannot see the employees</p>
-     )
-    }
+
+ const deleteEmployee=(empId)=>{
+  setEmps(emp.filter((item)=> item.id !== empId))
+ };
+
+
+
+   return (
+    <div  className='container'>
+         <AddEmployee onAdd={addEmployee}/>
+         <EmployeeList emplist={emp} onDelete={deleteEmployee} addEmployee={AddEmployee}/>   
     </div>
   );
 }
